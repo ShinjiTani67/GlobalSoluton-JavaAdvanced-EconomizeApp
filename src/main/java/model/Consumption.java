@@ -1,11 +1,9 @@
 package model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -15,6 +13,12 @@ public class Consumption {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int quantity;
+    @Column(nullable = false)
+    private int killowatt;
 
+    @Column(nullable = false)
+    private LocalDate beginDate;
+
+    @Column(nullable = false)
+    private double cost;
 }
