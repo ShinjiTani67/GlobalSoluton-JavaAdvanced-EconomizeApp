@@ -2,6 +2,7 @@ package controller;
 
 
 import io.swagger.v3.oas.annotations.Operation;
+import mapper.UserMapper;
 import model.User;
 import org.springframework.web.bind.annotation.*;
 import repository.UserRepository;
@@ -15,9 +16,11 @@ import java.util.List;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, UserMapper userMapper, UserMapper userMapper1) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     @GetMapping
