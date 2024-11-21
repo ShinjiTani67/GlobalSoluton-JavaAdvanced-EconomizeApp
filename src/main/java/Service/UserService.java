@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import mapper.UserMapper;
 import org.springframework.stereotype.Service;
 import repository.UserRepository;
-
 import java.util.Optional;
 import java.util.UUID;
 
