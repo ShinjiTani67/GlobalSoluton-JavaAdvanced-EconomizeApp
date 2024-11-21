@@ -17,10 +17,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false, unique = true, length = 11)
     private String cpf;
 
+    @Column(nullable = false)
     private Date birthdate;
 
 
