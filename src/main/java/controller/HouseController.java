@@ -10,7 +10,9 @@ import repository.HouseRepository;
 @RequestMapping("/api/casa")
 @Tag(name = "Casa", description = "Gerencia os dados da casa")
 public class HouseController {
+
     public HouseController(HouseRepository houseRepository) {
-        
+
+        this.houseRepository = houseRepository;
     }
 }
