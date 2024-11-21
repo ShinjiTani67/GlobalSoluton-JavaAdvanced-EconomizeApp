@@ -28,4 +28,4 @@ O Economize APP tem como proposito ajudar as pessoas a economizar energia
 
 ## Tecnologias Usadas
 - IntelliJ
--Springboot
+- Springboot
