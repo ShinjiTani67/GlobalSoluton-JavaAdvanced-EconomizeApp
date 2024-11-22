@@ -56,7 +56,7 @@ public class ConsumptionController {
         return consumptionRepository.findById(id)
                 .map(existingConsumption -> {
                     Consumption updatedConsumption = consumptionMapper.toEntity(consumptionDto);
-                    updatedConsumption.setId(existingConsumption.getId()); // Mantém o ID existente
+                    updatedConsumption.setId(existingConsumption.getId());
                     return ResponseEntity.ok(consumptionMapper.toDto(consumptionRepository.save(updatedConsumption)));
                 })
                 .orElse(ResponseEntity.notFound().build());
