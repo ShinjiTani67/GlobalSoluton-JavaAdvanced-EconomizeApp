@@ -40,9 +40,9 @@ public class UserController {
     @Operation(summary = "Buscar usuário por ID", description = "Retorna os dados de um usuário específico")
     public ResponseEntity<UserDto> buscarUsuarioPorId(@PathVariable int id) {
         return userRepository.findById(id)
-                .map(userMapper::toDto) // Converte User para UserDto
-                .map(ResponseEntity::ok) // Retorna 200 OK com o DTO
-                .orElse(ResponseEntity.notFound().build()); // Retorna 404 se não encontrado
+                .map(userMapper::toDto) 
+                .map(ResponseEntity::ok) 
+                .orElse(ResponseEntity.notFound().build()); 
     }
 
     @PutMapping("/{id}")
@@ -51,10 +51,10 @@ public class UserController {
         return userRepository.findById(id)
                 .map(existingUser -> {
                     User updatedUser = userMapper.toEntity(userDto);
-                    updatedUser.setId(existingUser.getId()); // Mantém o ID existente
+                    updatedUser.setId(existingUser.getId()); 
                     return ResponseEntity.ok(userMapper.toDto(userRepository.save(updatedUser)));
                 })
-                .orElse(ResponseEntity.notFound().build()); // Retorna 404 se não encontrado
+                .orElse(ResponseEntity.notFound().build()); 
     }
 
     @DeleteMapping("/{id}")
@@ -62,8 +62,8 @@ public class UserController {
     public ResponseEntity<Void> excluirUsuario(@PathVariable int id) {
         if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
-            return ResponseEntity.noContent().build(); // Retorna 204 No Content
+            return ResponseEntity.noContent().build(); 
         }
-        return ResponseEntity.notFound().build(); // Retorna 404 se não encontrado
+        return ResponseEntity.notFound().build(); 
     }
 }
