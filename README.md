@@ -21,6 +21,8 @@
 
 - **Video do Protótipo**: https://youtu.be/02F29S3KUq4
 
+- **Video da API Rest**: https://youtu.be/jgAJXsb6d8U
+
 ## Instalação
 - **Clone o Repositório**: https://github.com/ShinjiTani67/GlobalSoluton-JavaAdvanced-EconomizeApp.git
 - Abra na IDEA java da sua escolha.
