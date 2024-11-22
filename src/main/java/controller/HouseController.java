@@ -4,12 +4,12 @@ package controller;
 import dto.HouseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import mapper.HouseMapper;
 import model.House;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import repository.HouseRepository;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,11 +20,13 @@ public class HouseController {
 
     private final HouseRepository houseRepository;
     private final HouseMapper houseMapper;
+    private final HouseDto houseDto;
 
     public HouseController(HouseRepository houseRepository, HouseMapper houseMapper) {
 
             this.houseRepository = houseRepository;
             this.houseMapper = houseMapper;
+            this.houseDto = houseDto;
 
     }
 
@@ -38,7 +40,7 @@ public class HouseController {
 
     @PostMapping
     @Operation(summary = "Cadastrar casa", description = "Adiciona uma nova casa ao sistema")
-    public ResponseEntity<HouseDto> cadastrarCasa (@RequestBody HouseDto houseDto){
+    public ResponseEntity<HouseDto> cadastrarCasa(@RequestBody HouseDto houseDto) {
         House house = houseMapper.toEntity(houseDto);
         House savedHouse = houseRepository.save(house);
         return ResponseEntity.ok(houseMapper.toDto(savedHouse));
@@ -55,11 +57,11 @@ public class HouseController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualizar casa", description = "Atualiza os dados de uma casa existente")
-    public ResponseEntity<HouseDto> atualizarCasa ( @PathVariable int id, @RequestBody HouseDto houseDto){
+    public ResponseEntity<HouseDto> atualizarCasa(@PathVariable int id, @Valid @RequestBody HouseDto houseDto) {
         return houseRepository.findById(id)
                 .map(existingHouse -> {
                     House updatedHouse = houseMapper.toEntity(houseDto);
-                    updatedHouse.setId(existingHouse.getId());
+                    updatedHouse.setId(existingHouse.getId()); // Garante que o ID existente seja mantido
                     return ResponseEntity.ok(houseMapper.toDto(houseRepository.save(updatedHouse)));
                 })
                 .orElse(ResponseEntity.notFound().build());

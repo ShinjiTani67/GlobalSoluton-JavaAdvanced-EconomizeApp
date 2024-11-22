@@ -19,10 +19,12 @@ public class UserController {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final UserDto userDto;
 
     public UserController(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.userDto = new userDto();
     }
 
     @GetMapping

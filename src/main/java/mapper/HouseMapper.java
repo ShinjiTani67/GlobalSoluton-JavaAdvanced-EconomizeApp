@@ -7,5 +7,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface HouseMapper {
     HouseDto toDto(House house);
-    House toEntity(House HouseDto);
+    House toEntity(House houseDto);
 }
