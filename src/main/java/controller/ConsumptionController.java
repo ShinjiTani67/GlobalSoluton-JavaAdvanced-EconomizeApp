@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/casa")
+@RequestMapping("/api/consumo")
 @Tag(name = "Consumo", description = "Gerencia os dados do consumo da casa")
 public class ConsumptionController {
 
