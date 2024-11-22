@@ -4,6 +4,7 @@ package controller;
 import dto.ConsumptionDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import mapper.ConsumptionMapper;
 import model.Consumption;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +35,8 @@ public class ConsumptionController {
     }
 
     @PostMapping
-    @Operation(summary = "Cadastrar consumo", description = "Adiciona um novo registro de consumo")
-    public ResponseEntity<ConsumptionDto> cadastrarConsumo(@RequestBody ConsumptionDto consumptionDto) {
+    @Operation( summary = "Cadastrar consumo", description = "Adiciona um novo registro de consumo")
+    public ResponseEntity<ConsumptionDto> cadastrarConsumo(@Valid @RequestBody ConsumptionDto consumptionDto) {
         Consumption consumption = consumptionMapper.toEntity(consumptionDto);
         Consumption savedConsumption = consumptionRepository.save(consumption);
         return ResponseEntity.ok(consumptionMapper.toDto(savedConsumption));
