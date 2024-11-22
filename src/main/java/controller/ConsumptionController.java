@@ -47,7 +47,7 @@ public class ConsumptionController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Buscar consumo por ID", description = "Retorna os dados de um consumo específico")
-    public ResponseEntity<ConsumptionDto> buscarConsumoPorId(@PathVariable int id) {
+    public ResponseEntity<ConsumptionDto> buscarConsumoPorId(@PathVariable Long id) {
         return consumptionRepository.findById(id)
                 .map(consumptionMapper::toDto)
                 .map(ResponseEntity::ok)
@@ -56,7 +56,7 @@ public class ConsumptionController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualizar consumo", description = "Atualiza os dados de um consumo existente")
-    public ResponseEntity<ConsumptionDto> atualizarConsumo(@PathVariable int id, @RequestBody ConsumptionDto consumptionDto) {
+    public ResponseEntity<ConsumptionDto> atualizarConsumo(@PathVariable Long id, @RequestBody ConsumptionDto consumptionDto) {
         return consumptionRepository.findById(id)
                 .map(existingConsumption -> {
                     Consumption updatedConsumption = consumptionMapper.toEntity(consumptionDto);
@@ -68,7 +68,7 @@ public class ConsumptionController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Excluir consumo", description = "Remove um registro de consumo")
-    public ResponseEntity<Void> excluirConsumo(@PathVariable int id) {
+    public ResponseEntity<Void> excluirConsumo(@PathVariable Long id) {
         if (consumptionRepository.existsById(id)) {
             consumptionRepository.deleteById(id);
             return ResponseEntity.noContent().build();

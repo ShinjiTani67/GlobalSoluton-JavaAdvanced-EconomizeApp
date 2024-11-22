@@ -11,11 +11,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
-    private UUID uuid;
+
+    private Long id;
 
     private String email;
 
     private String name;
 
     private int CPF;
+
 }

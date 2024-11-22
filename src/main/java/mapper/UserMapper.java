@@ -2,6 +2,7 @@ package mapper;
 
 
 import dto.UserDto;
+import jakarta.validation.Valid;
 import model.User;
 import org.mapstruct.Mapper;
 
@@ -9,5 +10,5 @@ import org.mapstruct.Mapper;
 public interface UserMapper {
 
     UserDto toDto(User user);
-    User toEntity(User userDto);
+    User toEntity(@Valid UserDto userDto);
 }

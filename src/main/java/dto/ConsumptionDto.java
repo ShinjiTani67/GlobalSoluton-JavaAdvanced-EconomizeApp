@@ -11,7 +11,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ConsumptionDto {
-    private int id;
+
+    private Long id;
 
     private int killowatt;
 

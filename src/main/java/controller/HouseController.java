@@ -7,10 +7,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import mapper.HouseMapper;
 import model.House;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import repository.HouseRepository;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -22,8 +26,8 @@ public class HouseController {
     private final HouseMapper houseMapper;
 
     public HouseController(HouseRepository houseRepository, HouseMapper houseMapper) {
-            this.houseRepository = houseRepository;
-            this.houseMapper = houseMapper;
+        this.houseRepository = houseRepository;
+        this.houseMapper = houseMapper;
     }
 
     @GetMapping
@@ -34,38 +38,41 @@ public class HouseController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping
-    @Operation(summary = "Cadastrar casa", description = "Adiciona uma nova casa ao sistema")
-    public ResponseEntity<HouseDto> cadastrarCasa(@Valid @RequestBody HouseDto houseDto) {
-        House house = houseMapper.toEntity(houseDto);
-        House savedHouse = houseRepository.save(house);
-        return ResponseEntity.ok(houseMapper.toDto(savedHouse));
+    @GetMapping("/paged")
+    @Operation(summary = "Listar casas com paginação", description = "Retorna as casas de forma paginada")
+    public Page<HouseDto> listarCasasPaginadas(Pageable pageable) {
+        return houseRepository.findAll(pageable)
+                .map(houseMapper::toDto);
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Buscar casa por ID", description = "Retorna os dados de uma casa específica")
-    public ResponseEntity<HouseDto> buscarCasaPorId ( @PathVariable int id){
+    @Operation(summary = "Buscar casa por UUID", description = "Retorna os dados de uma casa específica")
+    public ResponseEntity<HouseDto> buscarCasaPorId(@PathVariable Long id) {
         return houseRepository.findById(id)
                 .map(houseMapper::toDto)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
+
     @PutMapping("/{id}")
     @Operation(summary = "Atualizar casa", description = "Atualiza os dados de uma casa existente")
-    public ResponseEntity<HouseDto> atualizarCasa(@PathVariable int id, @Valid @RequestBody HouseDto houseDto) {
+    public ResponseEntity<HouseDto> atualizarCasa(@PathVariable long id, @Valid @RequestBody HouseDto houseDto) {
         return houseRepository.findById(id)
-                .map(existingHouse -> {
-                    House updatedHouse = houseMapper.toEntity(houseDto);
-                    updatedHouse.setId(existingHouse.getId());
-                    return ResponseEntity.ok(houseMapper.toDto(houseRepository.save(updatedHouse)));
+                .map(casaExistente -> {
+                    House casaAtualizada = houseMapper.toEntity(houseDto);
+                    casaAtualizada.setId(casaExistente.getId());
+                    House casaSalva = houseRepository.save(casaAtualizada);
+                    return ResponseEntity.ok(houseMapper.toDto(casaSalva));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
 
+
+
     @DeleteMapping("/{id}")
     @Operation(summary = "Excluir casa", description = "Remove os dados de uma casa do sistema")
-    public ResponseEntity<Void> excluirCasa ( @PathVariable int id){
+    public ResponseEntity<Void> excluirCasa ( @PathVariable Long id){
         if (houseRepository.existsById(id)) {
             houseRepository.deleteById(id);
             return ResponseEntity.noContent().build();

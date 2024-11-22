@@ -1,9 +1,12 @@
 package controller;
 
 
+import dto.HouseDto;
 import dto.UserDto;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import mapper.UserMapper;
+import model.House;
 import model.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +22,10 @@ public class UserController {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final UserDto userDto;
 
     public UserController(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
-        this.userDto = new userDto();
     }
 
     @GetMapping
@@ -49,14 +50,15 @@ public class UserController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualizar usuário", description = "Atualiza os dados de um usuário existente")
-    public ResponseEntity<UserDto> atualizarUsuario(@PathVariable int id, @RequestBody UserDto userDto) {
-        return userRepository.findById(id)
-                .map(existingUser -> {
-                    User updatedUser = userMapper.toEntity(userDto);
-                    updatedUser.setId(existingUser.getId()); 
-                    return ResponseEntity.ok(userMapper.toDto(userRepository.save(updatedUser)));
+    public ResponseEntity<UserDto> atualizarUsuario(@PathVariable Long id, @Valid @RequestBody UserDto userDto) {
+        return userRepository.findById(Math.toIntExact(id))
+                .map(usuarioExistente -> {
+                    User usuarioAtualizado = userMapper.toEntity(userDto);
+                    usuarioAtualizado.setId(usuarioExistente.getId()); // Garante que o ID não seja alterado
+                    User usuarioSalvo = userRepository.save(usuarioAtualizado);
+                    return ResponseEntity.ok(userMapper.toDto(usuarioSalvo));
                 })
-                .orElse(ResponseEntity.notFound().build()); 
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
