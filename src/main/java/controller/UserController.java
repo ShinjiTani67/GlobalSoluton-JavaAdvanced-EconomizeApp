@@ -39,6 +39,8 @@ public class UserController {
     public User cadastrarUsuario(@RequestBody User user) {
         return userRepository.save(user);
     }
+
+
     @GetMapping("/{id}")
     @Operation(summary = "Buscar usuário por ID", description = "Retorna os dados de um usuário específico")
     public ResponseEntity<UserDto> buscarUsuarioPorId(@PathVariable int id) {
