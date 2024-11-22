@@ -20,14 +20,10 @@ public class HouseController {
 
     private final HouseRepository houseRepository;
     private final HouseMapper houseMapper;
-    private final HouseDto houseDto;
 
     public HouseController(HouseRepository houseRepository, HouseMapper houseMapper) {
-
             this.houseRepository = houseRepository;
             this.houseMapper = houseMapper;
-            this.houseDto = houseDto;
-
     }
 
     @GetMapping
@@ -40,7 +36,7 @@ public class HouseController {
 
     @PostMapping
     @Operation(summary = "Cadastrar casa", description = "Adiciona uma nova casa ao sistema")
-    public ResponseEntity<HouseDto> cadastrarCasa(@RequestBody HouseDto houseDto) {
+    public ResponseEntity<HouseDto> cadastrarCasa(@Valid @RequestBody HouseDto houseDto) {
         House house = houseMapper.toEntity(houseDto);
         House savedHouse = houseRepository.save(house);
         return ResponseEntity.ok(houseMapper.toDto(savedHouse));
@@ -61,7 +57,7 @@ public class HouseController {
         return houseRepository.findById(id)
                 .map(existingHouse -> {
                     House updatedHouse = houseMapper.toEntity(houseDto);
-                    updatedHouse.setId(existingHouse.getId()); // Garante que o ID existente seja mantido
+                    updatedHouse.setId(existingHouse.getId());
                     return ResponseEntity.ok(houseMapper.toDto(houseRepository.save(updatedHouse)));
                 })
                 .orElse(ResponseEntity.notFound().build());
