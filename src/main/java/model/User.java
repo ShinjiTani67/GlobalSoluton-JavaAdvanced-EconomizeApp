@@ -3,6 +3,7 @@ package model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,6 +11,7 @@ import java.sql.Date;
 
 @Data
 @Entity
+@ToString
 @Table(name="tb_user")
 public class User {
 
