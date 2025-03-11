@@ -1,12 +1,10 @@
 package controller;
 
 
-import dto.HouseDto;
 import dto.UserDto;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import mapper.UserMapper;
-import model.House;
 import model.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

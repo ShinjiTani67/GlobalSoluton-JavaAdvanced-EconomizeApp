@@ -36,7 +36,6 @@ public class ConsumptionController {
         return ResponseEntity.ok(consumptionDtos);
     }
 
-
     @PostMapping
     @Operation( summary = "Cadastrar consumo", description = "Adiciona um novo registro de consumo")
     public ResponseEntity<ConsumptionDto> cadastrarConsumo(@Valid @RequestBody ConsumptionDto consumptionDto) {
